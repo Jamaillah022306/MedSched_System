@@ -46,6 +46,27 @@
         color: #5a7a9c;
         font-weight: 600;
     }
+    .pagination-links a,
+    .pagination-links span {
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        margin: 0 2px;
+    }
+    .pagination-links a {
+        background-color: #2471A3;
+        color: white;
+    }
+    .pagination-links a:hover {
+        background-color: #1A5276;
+    }
+    .pagination-links span {
+        background-color: #d0d0d0;
+        color: #999;
+        cursor: not-allowed;
+    }
 
     @media (max-width: 900px) {
         .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -138,8 +159,18 @@
         Showing {{ $recentAppointments->firstItem() ?? 0 }}–{{ $recentAppointments->lastItem() ?? 0 }}
         of {{ $recentAppointments->total() }} appointment(s)
     </div>
-    <div>
-        {{ $recentAppointments->withQueryString()->links() }}
+    <div class="pagination-links">
+        @if ($recentAppointments->onFirstPage())
+            <span>« Previous</span>
+        @else
+            <a href="{{ $recentAppointments->previousPageUrl() }}">« Previous</a>
+        @endif
+
+        @if ($recentAppointments->hasMorePages())
+            <a href="{{ $recentAppointments->nextPageUrl() }}">Next »</a>
+        @else
+            <span>Next »</span>
+        @endif
     </div>
 </div>
 
